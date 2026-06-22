@@ -1,0 +1,7 @@
+# Chặn thư mục build của C++
+/build/
+/.cache/
+
+# Chặn cấu hình riêng của Trae AI/Cursor
+.traerules
+.cursorrules
