@@ -1,5 +1,8 @@
 # Low-Latency C++ Backtester
 
+[![CI](https://github.com/kswisse/low-latency-cpp-backtester/actions/workflows/ci.yml/badge.svg)](https://github.com/kswisse/low-latency-cpp-backtester/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 A high-performance, low-latency **L2 order book and backtesting engine** written in C++20 for quant trading strategies.
 
 > Research and paper-trading tooling only — no live trading, no financial advice.
