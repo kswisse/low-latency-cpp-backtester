@@ -21,5 +21,8 @@ jobs:
       - name: Build
         run: cmake --build build -j
 
+      - name: Run unit tests
+        run: ctest --test-dir build --output-on-failure
+
       - name: Run benchmark smoke test
         run: ./build/quant_backtester
