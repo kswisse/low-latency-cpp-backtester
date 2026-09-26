@@ -2,6 +2,9 @@
 #include "OrderBook.hpp"
 #include "MarketDataEvent.hpp"
 #include "Order.hpp"
+#include "ExecutionSimulator.hpp"  // for Fill
+#include <functional>
+#include <utility>
 #include <vector>
 
 using OrderSubmitCallback = std::function<void(const Order&)>;
