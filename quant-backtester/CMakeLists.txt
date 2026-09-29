@@ -26,3 +26,8 @@ target_include_directories(quant_backtester_lib PUBLIC ${CMAKE_CURRENT_SOURCE_DI
 
 add_executable(quant_backtester src/main.cpp)
 target_link_libraries(quant_backtester PRIVATE quant_backtester_lib)
+
+include(CTest)
+if(BUILD_TESTING)
+    add_subdirectory(tests)
+endif()
