@@ -41,6 +41,10 @@ public:
         }
     }
 
+    // Backtester::run() (src/Backtester.cpp:35-40) re-delivers EVERY accumulated
+    // fill on each subsequent event, so on_fill fires repeatedly after the first
+    // fill. Fill-producing cases submit on the final event (2 of 2, 3 of 3)
+    // deliberately, which is why fills_received ends up with exactly one entry.
     void on_fill(const Fill& fill) override { fills_received.push_back(fill); }
 };
 
