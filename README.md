@@ -21,16 +21,34 @@ A high-performance, low-latency **L2 order book and backtesting engine** written
 ```
 quant-backtester/
 ├── CMakeLists.txt
-├── include/          # Public headers
-│   ├── OrderBook.hpp
-│   ├── MarketDataEngine.hpp
-│   ├── ExecutionSimulator.hpp
-│   ├── PerformanceMetrics.hpp
+├── include/                  # Public headers
 │   ├── Backtester.hpp
-│   ├── StrategyInterface.hpp
-│   └── SimpleMarketMaker.hpp
-└── src/              # Implementation + benchmark entry point
-    └── main.cpp
+│   ├── ExecutionSimulator.hpp
+│   ├── MarketDataEngine.hpp
+│   ├── MarketDataEvent.hpp
+│   ├── Order.hpp
+│   ├── OrderBook.hpp
+│   ├── PerformanceMetrics.hpp
+│   ├── SimpleMarketMaker.hpp
+│   └── StrategyInterface.hpp
+├── src/                      # Implementation + benchmark entry point
+│   ├── Backtester.cpp
+│   ├── ExecutionSimulator.cpp
+│   ├── MarketDataEngine.cpp
+│   ├── OrderBook.cpp
+│   ├── PerformanceMetrics.cpp
+│   ├── SimpleMarketMaker.cpp
+│   └── main.cpp
+└── tests/                    # doctest suite, wired into CTest
+    ├── CMakeLists.txt
+    ├── doctest_main.cpp
+    ├── test_support.hpp
+    ├── test_backtester_contract.cpp
+    ├── test_execution_simulator.cpp
+    ├── test_market_data_engine.cpp
+    ├── test_order_book.cpp
+    ├── test_performance_metrics.cpp
+    └── test_simple_market_maker.cpp
 ```
 
 ## Build
@@ -48,22 +66,40 @@ Run the benchmark:
 ./build/quant_backtester      # Windows: build\Release\quant_backtester.exe with MSVC
 ```
 
-Example output:
+Example output — measured on AMD Ryzen 7 250 (8 cores / 16 threads), 32 GB RAM,
+Windows 11, g++ 16.1.0 Release build. Four consecutive runs took 95–107 ms
+(103 / 95 / 107 / 99 ms), i.e. ~10M events/sec; every run reported 0 fills:
 
 ```
 Generating 1000000 mock events...
 Running backtest...
 
 === PERFORMANCE METRICS ===
-Time taken: ... ms
-Events per second: ...
+Time taken: 103 ms
+Events per second: 9.70874e+06
+
 === TRADING METRICS ===
-Total fills: ...
+Total fills: 0
+```
+
+## Testing
+
+The suite uses [doctest](https://github.com/doctest/doctest) v2.4.11 (fetched by
+CMake at configure time): **51 test cases / 248 assertions** across 6 executables
+registered with CTest — `test_order_book` (10), `test_performance_metrics` (9),
+`test_execution_simulator` (10), `test_market_data_engine` (6),
+`test_backtester_contract` (9), `test_simple_market_maker` (7).
+
+The gate CI runs:
+
+```bash
+ctest --test-dir build --output-on-failure --no-tests=error
 ```
 
 ## CI
 
-GitHub Actions configures and builds the project with GCC on every push and pull request to `main`.
+GitHub Actions configures, builds, runs the test suite and a benchmark smoke
+test with GCC on every push and pull request to `main`.
 
 ## License
 
